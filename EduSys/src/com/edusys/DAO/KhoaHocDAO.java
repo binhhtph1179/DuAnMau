@@ -78,7 +78,7 @@ public class KhoaHocDAO extends EdusysDAO<KhoaHoc, Integer> {
     public void deleteAt(Integer keyType1, Integer keyType2) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-
+    
     @Override
     public List<KhoaHoc> selectAll() {
         return selectBySql(sqlSelectAll);

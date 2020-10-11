@@ -601,6 +601,8 @@ public class EduSysJFrame extends javax.swing.JFrame {
         this.setIconImage(Ximg.getAppicon());
         if (login.cointindexconect < 1) {
             new chaoJDialog(this, true).setVisible(true);
+//            new DangNhapJInternalFrame().setVisible(true);
+            System.out.println("check");
             new loginJDialog(this, true).setVisible(true);
         }
         // phân quyền

@@ -13,6 +13,7 @@ import com.edusys.Entity.ChuyenDe;
 import com.edusys.Entity.KhoaHoc;
 import com.edusys.Entity.NguoiHoc;
 import com.edusys.DAO.NguoiHocDAO;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -34,8 +35,8 @@ public class QuanLi_HocVienJDialog extends javax.swing.JDialog {
     List<ChuyenDe> listChuyenDe = cdDAO.selectAll();
     List<KhoaHoc> listKhoaHoc = khDAO.selectAll();
     List<NguoiHoc> listNguoiHoc = nhDAO.selectAll();
-    DefaultTableModel modelHocVien;
-    DefaultTableModel modelNguoiHoc;
+    public static DefaultTableModel modelHocVien;
+    public static DefaultTableModel modelNguoiHoc;
 
     public QuanLi_HocVienJDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -47,8 +48,10 @@ public class QuanLi_HocVienJDialog extends javax.swing.JDialog {
             btnXoa.setEnabled(false);
         }
 //        fillToTableHocVien();
-        fillToTableNguoiHoc();
+//        fillToTableNguoiHoc();
         fillCboCHuyenDe();
+//        fill();
+
 //        fillCboKhoaHoc();
     }
 
@@ -90,7 +93,6 @@ public class QuanLi_HocVienJDialog extends javax.swing.JDialog {
         jPanel4.setLayout(new java.awt.GridLayout(1, 0));
 
         cboChuyenDe.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
-        cboChuyenDe.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tất cả" }));
         cboChuyenDe.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cboChuyenDeActionPerformed(evt);
@@ -282,7 +284,7 @@ public class QuanLi_HocVienJDialog extends javax.swing.JDialog {
     private void cboChuyenDeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboChuyenDeActionPerformed
         if (cboChuyenDe.getSelectedItem().equals("Tất cả")) {
             cboKhoaHoc.removeAllItems();
-            cboKhoaHoc.addItem("Tất cả");
+//            cboKhoaHoc.addItem("Tất cả");
             modelHocVien.setRowCount(0);
             int countHocVien = 0;
             for (HocVien hv : listHocVien) {
@@ -303,30 +305,65 @@ public class QuanLi_HocVienJDialog extends javax.swing.JDialog {
             }
 
         }
+//System.out.println("ok");
+        
+        
+        
+        if (cboKhoaHoc.getSelectedItem() != null) {
+            int ma = Integer.parseInt(cboKhoaHoc.getSelectedItem().toString());
+            String maChuyenDe = cboChuyenDe.getSelectedItem().toString();
+            System.out.println("tham số truyền vào " + ma + " - " + maChuyenDe);
+            hvDAO.getModelHocVien(ma, maChuyenDe);
+
+        } else {
+            modelHocVien.setRowCount(0);
+        }
     }//GEN-LAST:event_cboChuyenDeActionPerformed
 
     private void cboKhoaHocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboKhoaHocActionPerformed
-        modelHocVien.setRowCount(0);
-        int countHocVien = 0;
-        System.out.println("cboKhoaHoc " + cboKhoaHoc.getSelectedItem());
-
-        for (HocVien hv : listHocVien) {
-            if (cboKhoaHoc.getSelectedItem() != null) {
-                if (!cboKhoaHoc.getSelectedItem().equals("Tất cả")) {
-                    fillToTableHocVien(Integer.parseInt(cboKhoaHoc.getSelectedItem() + ""));
-//                if (cboKhoaHoc.getSelectedItem().equals(hv.getMaKhoaHoc())) {
-//                    modelHocVien.addRow(new Object[]{countHocVien, hv.getMaHocVien(), hv.getMaKhoaHoc(), hv.getDiem(), hv.getMaNhienVien()});
-//                    countHocVien++;
+//        modelHocVien.setRowCount(0);
+//        int countHocVien = 0;
+//        System.out.println("cboKhoaHoc " + cboKhoaHoc.getSelectedItem());
+//
+//        for (HocVien hv : listHocVien) {
+//            if (cboKhoaHoc.getSelectedItem() != null) {
+//                if (!cboKhoaHoc.getSelectedItem().equals("Tất cả")) {
+//                    fillToTableHocVien(Integer.parseInt(cboKhoaHoc.getSelectedItem() + ""));
+////                if (cboKhoaHoc.getSelectedItem().equals(hv.getMaKhoaHoc())) {
+////                    modelHocVien.addRow(new Object[]{countHocVien, hv.getMaHocVien(), hv.getMaKhoaHoc(), hv.getDiem(), hv.getMaNhienVien()});
+////                    countHocVien++;
+////                }
 //                }
-                }
-            }
+//            }
+//
+//        }
+        if (cboKhoaHoc.getSelectedItem() != null) {
+            int ma = Integer.parseInt(cboKhoaHoc.getSelectedItem().toString());
+            String maChuyenDe = cboChuyenDe.getSelectedItem().toString();
+            System.out.println("tham số truyền vào " + ma + " - " + maChuyenDe);
+            hvDAO.getModelHocVien(ma, maChuyenDe);
+            hvDAO.getModel(ma);
 
+        } else {
+            modelNguoiHoc.setRowCount(0);
         }
+
+
     }//GEN-LAST:event_cboKhoaHocActionPerformed
     int indexHocVien = -1;
     private void tblHocVienMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblHocVienMouseClicked
         indexHocVien = tblHocVien.getSelectedRow();
+        int ma = (int) tblHocVien.getValueAt(indexHocVien, 1);
         System.out.println(indexHocVien);
+        for (HocVien hv : listHocVien) {
+            if (ma == hv.getMaHocVien()) {
+                cboKhoaHoc.setSelectedItem(hv.getMaKhoaHoc());
+                break;
+            }
+            System.out.println(hv.getMaHocVien());
+
+//            cboKhoaHoc.setSelectedIndex(5);
+        }
     }//GEN-LAST:event_tblHocVienMouseClicked
 
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
@@ -363,14 +400,19 @@ public class QuanLi_HocVienJDialog extends javax.swing.JDialog {
         if (indexHocVien == -1) {
             JOptionPane.showMessageDialog(this, "chưa chọn học viên");
         } else {
-            HocVien kh = new HocVien();
-            kh.setMaHocVien(Integer.parseInt(modelHocVien.getValueAt(indexHocVien, 1) + ""));
-            kh.setDiem(Integer.parseInt(modelHocVien.getValueAt(indexHocVien, 4) + ""));
-            kh.setMaKhoaHoc(Integer.parseInt(cboKhoaHoc.getSelectedItem() + ""));
-            kh.setMaNguoiHoc(modelHocVien.getValueAt(indexHocVien, 2) + "");
-            updateHocVien(kh);
-            System.out.println(kh);
-            indexHocVien = -1;
+            if (cboKhoaHoc.getSelectedItem() == null || cboKhoaHoc.getSelectedItem().equals("Tất cả")) {
+                JOptionPane.showMessageDialog(this, "Chưa chọn khóa học");
+            } else {
+                HocVien kh = new HocVien();
+                kh.setMaHocVien(Integer.parseInt(modelHocVien.getValueAt(indexHocVien, 1) + ""));
+                kh.setDiem(Integer.parseInt(modelHocVien.getValueAt(indexHocVien, 4) + ""));
+                kh.setMaKhoaHoc(Integer.parseInt(cboKhoaHoc.getSelectedItem() + ""));
+                kh.setMaNguoiHoc(modelHocVien.getValueAt(indexHocVien, 2) + "");
+                updateHocVien(kh);
+                System.out.println(kh);
+                indexHocVien = -1;
+            }
+
         }
     }//GEN-LAST:event_btnCapNhatActionPerformed
 
@@ -453,6 +495,18 @@ public class QuanLi_HocVienJDialog extends javax.swing.JDialog {
         }
     }
 
+    private void fill() {
+        int countHocVien = 0;
+        for (HocVien hv : listHocVien) {
+            for (NguoiHoc nh : listNguoiHoc) {
+                if (nh.getMaHocVien().equals(hv.getMaNguoiHoc())) {
+                    modelHocVien.addRow(new Object[]{countHocVien, hv.getMaHocVien(), hv.getMaNguoiHoc(), nh.getHotenHocVien(), hv.getDiem()});
+                    countHocVien++;
+                }
+            }
+        }
+    }
+
     private void fillToTableNguoiHoc() {
         modelNguoiHoc.setRowCount(0);
         int countHocVien = 0;
@@ -469,15 +523,17 @@ public class QuanLi_HocVienJDialog extends javax.swing.JDialog {
     private void fillCboCHuyenDe() {
         for (ChuyenDe cd : listChuyenDe) {
             cboChuyenDe.addItem(cd.getTenChuyenDe());
+//            fillCboKhoaHoc(cd.getMaChuyenDe());
         }
     }
 
     private void fillCboKhoaHoc(String maCD) {
+        System.out.println("fill khóa học");
         cboKhoaHoc.removeAllItems();
         for (KhoaHoc kh : listKhoaHoc) {
             if (kh.getMaChuyenDe().equals(maCD)) {
                 cboKhoaHoc.addItem(kh.getMaKhoaHoc() + "");
-                fillToTableHocVien(Integer.parseInt(cboKhoaHoc.getSelectedItem() + ""));
+//                fillToTableHocVien(Integer.parseInt(cboKhoaHoc.getSelectedItem() + ""));
             }
 
         }
@@ -491,6 +547,7 @@ public class QuanLi_HocVienJDialog extends javax.swing.JDialog {
         hv.setMaNguoiHoc(tblNguoiHoc.getValueAt(indexNguoiHoc, 0) + "");
         System.out.println(hv);
         try {
+            
             hvDAO.insert(hv);
             JOptionPane.showMessageDialog(this, "Thêm thành công");
             listHocVien.add(hv);

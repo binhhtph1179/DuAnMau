@@ -5,7 +5,7 @@
             <url>src/com/edusys/DAO/NhanVienDAO.java</url>
             <bookmark id="1">
                 <name/>
-                <line>76</line>
+                <line>80</line>
                 <key/>
             </bookmark>
         </file>
@@ -14,7 +14,7 @@
         <group>
             <file>file:/H:/DuAnMau/EduSys/src/com/edusys/ui/EduSysJFrame.java</file>
             <file>file:/H:/DuAnMau/EduSys/src/com/edusys/DAO/HocVienDAO.java</file>
-            <file>file:/H:/DuAnMau/EduSys/src/com/edusys/Entity/HocVien.java</file>
+            <file>file:/H:/DuAnMau/EduSys/src/com/edusys/ui/DangNhapMDI.java</file>
             <file>file:/H:/DuAnMau/EduSys/src/com/edusys/ui/QuanLi_HocVienJDialog.java</file>
         </group>
     </open-files>

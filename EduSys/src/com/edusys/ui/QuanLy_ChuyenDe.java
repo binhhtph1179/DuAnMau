@@ -320,9 +320,9 @@ public class QuanLy_ChuyenDe extends javax.swing.JDialog {
             jfc.showOpenDialog(this);
             //add link vào file
             File file = jfc.getSelectedFile();
-            Ximg.save(file);
             //tạo img
             if (file != null) {
+                Ximg.save(file);// lưu file
                 Image img = ImageIO.read(file);
                 // gán hình bừng file
                 hinh = file.getName();
